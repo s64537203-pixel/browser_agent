@@ -1,297 +1,127 @@
-# 🤖 Privacy-Preserving Lightweight Browser Agent
+# 🤖 Browser Agent
+
+### Privacy-Preserving • Lightweight • On-Device Browser Automation
 
 > **On-device Visual Perception for Lightweight Browser Agents**
-> *A prototype inspired by the ISRO Smart India Hackathon 2026 problem statement.*
+> A working prototype exploring privacy-aware browser automation using a Chrome Extension, TypeScript, Python, and lightweight computer vision.
 
-[![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)](https://www.python.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-ES2020-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green?logo=googlechrome)](https://developer.chrome.com/docs/extensions/)
-[![YOLO](https://img.shields.io/badge/YOLO-Ultralytics-purple)](https://github.com/ultralytics/ultralytics)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](#-license)
+<p align="center">
+
+**👁️ Perceive → 🔒 Protect → 🧠 Decide → 🖱️ Act**
+
+</p>
 
 ---
 
-## 🌟 What is this?
+## 🚀 What is Browser Agent?
 
-**Browser Agent** is a prototype of a lightweight, privacy-focused AI agent that can **perceive elements of a browser interface and perform user-requested actions** while keeping sensitive information protected locally.
+**Browser Agent** is a prototype of an AI-powered browser agent that can understand and interact with elements of a web page.
 
-Instead of continuously sending a user's webpage data to a cloud AI service, the proposed architecture focuses on **local visual perception and local processing**.
+The project explores an important question:
 
-### 💡 In simple words
+> **Can browser agents automate tasks while minimizing unnecessary exposure of sensitive user information?**
 
-Imagine you have this form open:
-
-```text
-┌──────────────────────────────────┐
-│          Login Form              │
-│                                  │
-│  Username: [____________]        │
-│  Password: [••••••••••••]        │
-│                                  │
-│          [ LOGIN ]               │
-└──────────────────────────────────┘
-```
-
-You tell the agent:
-
-> **"Click Login."**
-
-The agent should be able to:
-
-**See → Understand → Protect → Act**
+For example, imagine a user has a login page open:
 
 ```text
-User Instruction
-       ↓
-Browser Interface
-       ↓
-UI / Visual Perception
-       ↓
-Sensitive Data Detection
-       ↓
-Privacy Protection Layer
-       ↓
-AI Decision
-       ↓
-Browser Action
-       ↓
-       ✅ Login clicked
+┌─────────────────────────────────┐
+│          LOGIN PAGE             │
+│                                 │
+│  Username  [______________]     │
+│  Password  [••••••••••••••] 🔒  │
+│                                 │
+│           [ LOGIN ]             │
+└─────────────────────────────────┘
 ```
+
+The user can request:
+
+```text
+"Click Login"
+```
+
+The agent's goal is to identify the correct UI element and perform the action while treating sensitive elements differently.
 
 ---
 
 # 🎯 Problem
 
-Modern browser agents can automate tasks such as:
+Browser agents are becoming increasingly capable of interacting with websites on behalf of users.
 
-* clicking buttons
-* filling forms
-* navigating websites
-* interacting with web applications
+However, webpages can contain sensitive information such as:
 
-However, browser interaction can involve **highly sensitive information**, such as:
+* 🔑 Passwords
+* 👤 Usernames
+* 💳 Financial information
+* 🏥 Personal/health information
+* 📄 Private form data
 
-* passwords
-* usernames
-* financial information
-* personal details
-* authentication fields
+A traditional cloud-based agent may require webpage information, screenshots, or other UI context to be processed remotely.
 
-Sending complete webpage information or screenshots to remote AI models can create unnecessary **privacy and data-exposure concerns**.
+This creates an important challenge:
 
-At the same time, many powerful AI systems depend on:
+### How can we make browser automation more privacy-aware and lightweight?
 
-* large models
-* cloud inference
-* high computational resources
-* continuous network connectivity
+At the same time, browser agents should ideally work with:
 
-### The challenge
-
-> **Can we build a lightweight browser agent that can perceive a webpage, understand its UI, protect sensitive information, and perform actions with as much processing as possible happening locally?**
+* limited computational resources
+* reduced cloud dependency
+* efficient visual perception
+* fast browser interaction
 
 ---
 
-# 🚀 Our Approach
+# 💡 Our Approach
 
 This prototype explores a **privacy-first browser agent architecture**.
 
-Instead of treating the webpage as unrestricted data, the system introduces a **Privacy Layer** between UI perception and AI processing.
+Instead of treating every webpage element equally, the system identifies UI elements and detects potentially sensitive inputs before continuing through the AI pipeline.
 
-### Core idea
+### High-level workflow
 
 ```text
-                 ┌─────────────────────┐
-                 │   Browser / Web UI  │
-                 └──────────┬──────────┘
+             👤 User Instruction
+                    │
+                    ▼
+          🌐 Browser Web Page
+                    │
+                    ▼
+           👁️ UI Perception
+                    │
+                    ├───────────────┐
+                    ▼               ▼
+             Normal Elements    🔒 Sensitive
+                    │               │
+                    └───────┬───────┘
+                            ▼
+                    🧠 AI Pipeline
                             │
                             ▼
-                 ┌─────────────────────┐
-                 │   UI Perception     │
-                 │                     │
-                 │ Detect UI Elements  │
-                 │ Buttons / Inputs    │
-                 └──────────┬──────────┘
+                    🎯 Target Element
                             │
                             ▼
-                 ┌─────────────────────┐
-                 │   Privacy Layer 🔒  │
-                 │                     │
-                 │ Sensitive Elements  │
-                 │     Detection       │
-                 └──────────┬──────────┘
+                    🖱️ Browser Action
                             │
                             ▼
-                 ┌─────────────────────┐
-                 │ Lightweight AI      │
-                 │ Perception / Agent  │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │ Browser Action      │
-                 │ Click / Interact    │
-                 └─────────────────────┘
+                         ✅ Done
 ```
 
 ---
 
 # ✨ Key Features
 
-### 🔍 1. Browser UI Perception
+## 👁️ 1. Browser UI Perception
 
-The browser extension detects visible UI elements such as:
+The Chrome extension detects elements present on the webpage.
 
-* buttons
-* text inputs
-* password inputs
-* interactive elements
+The prototype can identify elements such as:
 
-The prototype logs detected elements and their approximate positions.
-
----
-
-### 🔐 2. Privacy Layer
-
-Sensitive UI elements are identified separately.
-
-For example:
-
-```text
-Username       → Normal Input
-Password       → 🔒 Sensitive Input
-Login          → Button
-Transfer Money → Button
-```
-
-This creates a separation between **what the agent needs to understand** and **what should remain protected**.
-
----
-
-### 🤖 3. Lightweight AI Pipeline
-
-The prototype also experiments with a local computer-vision pipeline using **YOLO**.
-
-The current prototype uses:
-
-```text
-Browser Screenshot
-       ↓
-Local Python Backend
-       ↓
-YOLO Model
-       ↓
-UI/Object Detection
-```
-
-The goal is to explore whether lightweight models can provide useful visual perception without depending entirely on large cloud-based models.
-
----
-
-### ⚡ 4. Local Processing
-
-The prototype is designed around a local architecture:
-
-```text
-Chrome Extension
-       │
-       │ HTTP
-       ▼
-Local Python Server
-       │
-       ▼
-Local AI Model
-```
-
-This allows experimentation without requiring every perception step to be sent to a remote AI API.
-
----
-
-### 🧩 5. Browser Automation
-
-Once the agent identifies the required UI element, the browser extension can interact with it.
+* `INPUT`
+* `BUTTON`
+* interactive UI elements
+* approximate screen coordinates
 
 Example:
-
-```text
-Instruction:
-"Click Login"
-
-        ↓
-
-Agent identifies:
-LOGIN BUTTON
-
-        ↓
-
-Browser:
-CLICK LOGIN
-```
-
----
-
-# 🛠️ Tech Stack
-
-| Technology                | Purpose                      |
-| ------------------------- | ---------------------------- |
-| **TypeScript**            | Browser extension logic      |
-| **Chrome Extension APIs** | Browser interaction          |
-| **Python**                | Local AI backend             |
-| **Ultralytics YOLO**      | Visual/object detection      |
-| **JavaScript / DOM APIs** | UI element perception        |
-| **HTTP / Localhost**      | Extension ↔ AI communication |
-| **VS Code**               | Development environment      |
-
----
-
-# 🏗️ Project Architecture
-
-```text
-Browser-Agent/
-│
-├── 📁 src/
-│   ├── content.ts
-│   ├── background.ts
-│   └── ...
-│
-├── 📁 ai/
-│   └── detect.py
-│
-├── 📁 demo/
-│   └── screenshot.png
-│
-├── 📁 dist/
-│   └── compiled extension files
-│
-├── 📄 manifest.json
-├── 📄 package.json
-├── 📄 tsconfig.json
-└── 📄 README.md
-```
-
-> File names may vary slightly depending on the current prototype version.
-
----
-
-# 🔄 How the Prototype Works
-
-### Step 1 — User opens a webpage
-
-The Chrome extension loads its content script.
-
-```text
-Browser Page
-     ↓
-Content Script
-```
-
----
-
-### Step 2 — UI elements are detected
-
-The extension scans the page and identifies interactive elements.
-
-Example prototype output:
 
 ```text
 UI Elements Found: 6
@@ -305,172 +135,195 @@ BUTTON → Transfer Money
 
 ---
 
-### Step 3 — Privacy layer identifies sensitive elements
+## 🔒 2. Sensitive Element Detection
 
-Sensitive fields such as password inputs are classified separately.
+Not every element on a webpage should be treated equally.
+
+The prototype specifically identifies sensitive inputs such as password fields.
+
+Example:
 
 ```text
-Password Input
-      ↓
-Sensitive Element Detected 🔒
+Username  → Normal Input
+Password  → 🔒 Sensitive Input
+Login     → Button
 ```
+
+This forms the basis of the project's **Privacy Layer**.
 
 ---
 
-### Step 4 — Screenshot / visual information enters AI pipeline
+## 🧠 3. Local AI Pipeline
 
-The prototype can pass screenshot information to the local AI pipeline.
+The prototype contains a Python-based computer vision pipeline using **Ultralytics YOLO**.
+
+Current flow:
 
 ```text
 Screenshot
-    ↓
-Local Python Server
-    ↓
-YOLO
-    ↓
-Detection
+     ↓
+Local Python Backend
+     ↓
+YOLO Model
+     ↓
+Detection Results
 ```
+
+The model file is intentionally **not stored in this repository**.
+
+It can be downloaded locally when setting up the project.
 
 ---
 
-### Step 5 — Agent identifies the target
+## 🖱️ 4. Browser Interaction
 
-For example:
+After identifying the required element, the browser extension can interact with it.
+
+Example:
 
 ```text
 User:
 "Click Login"
 
-        ↓
+       ↓
 
 Agent:
 Login button found
+
+       ↓
+
+Browser:
+Login button clicked ✅
 ```
 
 ---
 
-### Step 6 — Browser performs the action
+## ⚡ 5. Lightweight Architecture
+
+The project separates browser interaction from the AI/vision pipeline:
 
 ```text
-Agent
-  ↓
-Chrome Extension
-  ↓
-Login Button
-  ↓
-🖱️ Click
+┌───────────────────────────────┐
+│       Chrome Extension       │
+│          TypeScript          │
+│                               │
+│   DOM / UI Perception        │
+│   Browser Interaction        │
+└───────────────┬───────────────┘
+                │
+                │ Local HTTP
+                ▼
+┌───────────────────────────────┐
+│       Python Backend          │
+│                               │
+│       Computer Vision         │
+│            YOLO               │
+└───────────────────────────────┘
 ```
 
 ---
 
-# 🔒 Privacy-by-Design
+# 🔄 Prototype Workflow
 
-Privacy is not treated as an afterthought.
+### 1️⃣ User opens a webpage
 
-It is incorporated directly into the agent pipeline.
-
-### Instead of:
+The browser extension starts its content script.
 
 ```text
-Webpage
+Web Page
    ↓
-Screenshot
-   ↓
-Cloud AI
-   ↓
-Decision
+Content Script
 ```
 
-### The proposed approach is:
+### 2️⃣ UI elements are detected
+
+The extension scans the page and identifies interactive elements.
+
+### 3️⃣ Sensitive elements are classified
+
+Password and other sensitive input fields are handled separately.
+
+### 4️⃣ Screenshot enters the local AI pipeline
+
+The prototype can send screenshot information to the local Python backend.
+
+### 5️⃣ AI perception runs locally
+
+The Python backend performs the available detection process.
+
+### 6️⃣ Agent identifies the required UI element
+
+For example:
 
 ```text
-Webpage
-   ↓
-Local Perception
-   ↓
-🔒 Privacy Layer
-   ↓
-Only necessary information
-   ↓
-Lightweight Agent
-   ↓
-Browser Action
+Target → Login Button
 ```
 
-This reduces unnecessary exposure of sensitive UI information.
-
-> **Important:** This repository contains a prototype demonstrating the architecture and core concepts. It should not be considered a production-grade security system or a guarantee that sensitive data can never be exposed.
-
----
-
-# 🧪 Current Prototype Status
-
-| Component                           | Status         |
-| ----------------------------------- | -------------- |
-| Chrome Extension                    | ✅ Working      |
-| UI Element Detection                | ✅ Working      |
-| Sensitive Input Identification      | ✅ Working      |
-| Login Button Detection              | ✅ Working      |
-| Browser Button Interaction          | ✅ Working      |
-| Local Python Backend                | ✅ Working      |
-| Screenshot → AI Pipeline            | ✅ Prototype    |
-| YOLO Integration                    | ✅ Prototype    |
-| Full autonomous browser agent       | 🚧 Future Work |
-| Production-grade privacy protection | 🚧 Future Work |
-| Fully on-device optimized model     | 🚧 Future Work |
-
----
-
-# 📸 Demo
-
-### Prototype Flow
+### 7️⃣ Browser performs the action
 
 ```text
-┌──────────────┐
-│ User Request │
-│ "Click Login"│
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ Browser UI   │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ UI Detection │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ Privacy 🔒   │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ Local AI     │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ Browser      │
-│ Action       │
-└──────┬───────┘
-       ↓
-    ✅ Done
+Agent → Chrome Extension → Button → Click
 ```
-
-> 💡 Add your actual prototype screenshots/GIFs here to make the repository much more impressive.
 
 ---
 
-# ⚙️ Getting Started
+# 🏗️ Project Structure
 
-## 1️⃣ Clone the repository
+```text
+browser_agent/
+│
+├── 📁 ai/
+│   └── detect.py
+│
+├── 📁 demo/
+│   └── screenshot.png
+│
+├── 📁 public/
+│
+├── 📁 src/
+│   ├── content.ts
+│   ├── background.ts
+│   └── ...
+│
+├── 📄 manifest.json
+├── 📄 package.json
+├── 📄 package-lock.json
+├── 📄 requirements.txt
+├── 📄 tsconfig.json
+├── 📄 .gitignore
+└── 📄 README.md
+```
+
+> Generated files, dependencies, virtual environments, and AI model weights are excluded using `.gitignore`.
+
+---
+
+# 🛠️ Tech Stack
+
+| Technology                   | Role                             |
+| ---------------------------- | -------------------------------- |
+| 🟦 **TypeScript**            | Browser extension logic          |
+| 🌐 **Chrome Extension APIs** | Browser interaction              |
+| 🐍 **Python**                | AI/vision backend                |
+| 🤖 **Ultralytics YOLO**      | Computer vision                  |
+| 🌐 **DOM APIs**              | Webpage UI perception            |
+| 🔗 **HTTP / Localhost**      | Extension ↔ Python communication |
+| 💻 **VS Code**               | Development                      |
+
+---
+
+# ⚙️ Installation
+
+## 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd browser-agent
+git clone https://github.com/s64537203-pixel/browser_agent.git
+cd browser_agent
 ```
 
 ---
 
-## 2️⃣ Install Node dependencies
+## 2. Install Node dependencies
 
 ```bash
 npm install
@@ -478,7 +331,7 @@ npm install
 
 ---
 
-## 3️⃣ Compile TypeScript
+## 3. Compile TypeScript
 
 ```bash
 npx tsc
@@ -486,27 +339,53 @@ npx tsc
 
 ---
 
-## 4️⃣ Start the local AI backend
+## 4. Set up Python environment
 
-Create/activate your Python environment and install the required dependencies.
+Create a virtual environment:
 
-Example:
+### Windows
 
-```bash
-pip install ultralytics
+```powershell
+python -m venv .venv
 ```
+
+Activate it:
+
+```powershell
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
+
+---
+
+# 🤖 YOLO Model Setup
+
+The YOLO model weights are **not included in the GitHub repository** to keep the repository lightweight.
+
+The AI script uses:
+
+```python
+YOLO("yolo11n.pt")
+```
+
+If the model is not already present locally, download/place the required model file in the expected project location before running the detection script.
 
 Then run:
 
-```bash
+```powershell
 python ai/detect.py
 ```
 
 ---
 
-## 5️⃣ Load the Chrome Extension
+# 🌐 Load the Chrome Extension
 
-Open Chrome and go to:
+Open Chrome:
 
 ```text
 chrome://extensions
@@ -515,169 +394,201 @@ chrome://extensions
 Then:
 
 1. Enable **Developer mode**
-2. Click **Load unpacked**
-3. Select the project's extension/build directory
+2. Select **Load unpacked**
+3. Choose the extension's generated/build directory
 4. Open the demo webpage
-5. Test the browser agent
+5. Reload the extension if required
+6. Test the browser interaction
 
 ---
 
-# 🧠 Why TypeScript?
+# 🧪 Current Prototype
 
-The browser extension needs to interact directly with:
-
-* DOM elements
-* browser APIs
-* events
-* buttons
-* inputs
-* content scripts
-* service workers
-
-TypeScript provides JavaScript compatibility while adding:
-
-* static typing
-* better IDE support
-* easier debugging
-* improved maintainability
-
-Python is used separately for the AI/vision pipeline.
-
-### So the architecture becomes:
+The current prototype demonstrates:
 
 ```text
-TypeScript
-   │
-   │ Browser interaction
-   ▼
-Chrome Extension
-   │
-   │ Local communication
-   ▼
-Python
-   │
-   │ AI / Computer Vision
-   ▼
+✅ Chrome Extension
+        ↓
+✅ UI Element Detection
+        ↓
+✅ Sensitive Input Detection
+        ↓
+✅ Local Python AI Pipeline
+        ↓
+✅ YOLO Integration
+        ↓
+✅ Browser Button Interaction
+```
+
+### Prototype evidence
+
+Example events produced during testing:
+
+```text
+Browser Agent - UI Perception Started!
+
+Sensitive element detected: INPUT
+
+Agent found Login button
+
+Agent clicked Login button
+
+Privacy Layer: Active
+
+Starting screenshot → AI pipeline
+```
+
+---
+
+# 📸 Demo
+
+> Add your prototype screenshots/GIF here.
+
+### Recommended demo sequence
+
+**1. Browser UI**
+
+Show the webpage containing:
+
+* Username
+* Password
+* Login
+* Transfer Money
+
+**2. Extension logs**
+
+Show:
+
+```text
+Sensitive element detected
+```
+
+**3. Agent action**
+
+Show:
+
+```text
+Agent found Login button
+Agent clicked Login button
+```
+
+**4. AI pipeline**
+
+Show:
+
+```text
+Screenshot
+    ↓
+Local Python
+    ↓
 YOLO
 ```
 
 ---
 
-# 🌍 Real-World Applications
+# 🔐 Privacy Architecture
 
-The concept can potentially be extended to:
+The central concept of this project is to introduce a privacy layer before sensitive information becomes unnecessary input to the agent.
 
-### 🏦 Banking
+### Traditional approach
 
-Automate repetitive navigation while protecting:
+```text
+Webpage
+   ↓
+Screenshot / Page Data
+   ↓
+☁️ Remote AI
+   ↓
+Decision
+   ↓
+Browser Action
+```
 
-* account numbers
-* passwords
-* transaction details
+### Proposed direction
 
-### 🏥 Healthcare
+```text
+Webpage
+   ↓
+👁️ Local UI Perception
+   ↓
+🔒 Privacy Layer
+   ↓
+🧠 Lightweight Local AI
+   ↓
+🎯 Decision
+   ↓
+🖱️ Browser Action
+```
 
-Assist with browser-based workflows involving sensitive patient information.
+### Why?
 
-### 🏢 Enterprise Applications
+Because the agent does not necessarily need to know everything visible on a webpage to perform a simple task.
 
-Automate repetitive internal web tasks while reducing unnecessary data exposure.
+For example:
 
-### 🛰️ Space / Research Systems
+```text
+Task:
+"Click Login"
 
-Useful for controlled environments where:
+Useful:
+✅ Login button location
 
-* network connectivity may be limited
-* privacy is important
-* computational resources are constrained
+Potentially unnecessary:
+❌ Password value
+❌ Private form contents
+```
 
-### ♿ Accessibility
+This **data-minimization principle** is one of the key ideas explored by the project.
 
-Assist users in interacting with complex web interfaces through natural-language commands.
+---
+
+# ⚠️ Prototype Limitation
+
+This is an **experimental prototype**, not a production-grade security system.
+
+The current implementation demonstrates the architecture and core interaction concepts.
+
+It does **not** claim that sensitive information can never be exposed.
+
+A production system would require significantly stronger:
+
+* privacy guarantees
+* isolation
+* permission controls
+* model evaluation
+* adversarial testing
+* security auditing
+* reliable UI understanding
 
 ---
 
 # 🔮 Future Scope
 
-The prototype can be extended into a complete browser agent with:
+The prototype can evolve into a complete lightweight browser agent.
 
-* 🧠 natural-language task planning
-* 👁️ stronger visual UI understanding
-* 🔐 automatic sensitive-data redaction
-* 📱 on-device / edge inference
-* ⚡ model quantization
-* 🧩 multi-step browser workflows
-* 📴 offline operation
-* 🛡️ stronger privacy guarantees
-* 🔄 task recovery and error handling
-* 🧪 benchmark evaluation using browser-agent datasets
+### 🧠 Advanced Agent Reasoning
 
-Potential optimization technologies include:
+Add natural-language task planning:
 
-**ONNX Runtime Web + WebGPU + lightweight vision models**
+```text
+"Open my email and find today's meeting invitation."
+```
 
-to reduce dependency on large cloud-based models.
+The agent could break this into multiple browser actions.
 
 ---
 
-# 📊 Prototype vs. Future System
+### 👁️ Advanced Visual Perception
 
-|              | Current Prototype                | Future System                       |
-| ------------ | -------------------------------- | ----------------------------------- |
-| UI Detection | DOM + prototype vision pipeline  | Advanced visual perception          |
-| AI           | YOLO experimentation             | Lightweight optimized agent         |
-| Privacy      | Sensitive element identification | Local redaction/privacy enforcement |
-| Actions      | Browser interaction              | Autonomous multi-step tasks         |
-| Compute      | Local prototype                  | Optimized edge/on-device            |
-| Instructions | Basic task examples              | Natural-language task planning      |
-| Connectivity | Local backend                    | Offline-first                       |
+Improve understanding of:
 
----
-
-# 💡 Why This Matters
-
-The goal isn't simply to build **another browser automation tool**.
-
-The bigger idea is:
-
-> ### **Make browser agents useful without making users give away unnecessary data.**
-
-As AI agents become capable of interacting with websites on behalf of users, **privacy, efficiency, and local intelligence** become increasingly important.
-
-This project explores one possible direction:
-
-**Perceive locally → Protect sensitive information → Decide → Act**
+* buttons
+* forms
+* menus
+* icons
+* layouts
+* dynamic web components
 
 ---
 
-# 👩‍💻 Contributors
-
-**Team / Developer:** *[Add your name/team here]*
-
-Built as a prototype for exploration of:
-
-**AI Agents • Computer Vision • Browser Automation • Privacy-Preserving AI • Edge AI**
-
----
-
-# ⭐ Support
-
-If you find this project interesting, consider giving the repository a ⭐
-
-It helps the project get noticed and motivates further development.
-
----
-
-# 📜 License
-
-This project is licensed under the **MIT License**.
-
----
-
-<p align="center">
-
-### 🤖 Building the next generation of privacy-aware browser agents.
-
-**Perceive. Protect. Act. 🔒**
-
-</p>
+### 🔒
