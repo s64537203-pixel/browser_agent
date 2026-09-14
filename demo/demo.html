@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banking Demo</title>
+</head>
+<style>
+    #agentDashboard {
+        border: 2px solid #333;
+        padding: 15px;
+        margin: 15px 0;
+        width: 320px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+    }
+
+    #agentDashboard h3 {
+        margin-top: 0;
+    }
+
+    #agentDashboard p {
+        margin: 8px 0;
+    }
+</style>
+<h2>🤖 Browser Agent</h2>
+<div id="agentDashboard">
+    <h3>🤖 Browser Agent Status</h3>
+
+    <p>🧠 UI Perception: <span id="uiStatus">✓ Active</span></p>
+    <p>📸 Screenshot: <span id="screenshotStatus">✓ Captured</span></p>
+    <p>🤖 Local AI: <span id="aiStatus">● Processing</span></p>
+    <p>🔒 Privacy Protection: <span id="privacyStatus">✓ Active</span></p>
+    <p>⚡ Agent: <span id="agentStatus">Ready</span></p>
+</div>
+
+<input
+    id="agentCommand"
+    type="text"
+    placeholder="e.g. click Login"
+/>
+
+<button id="runAgent">Run Agent</button>
+
+<p id="agentStatus"></p>
+
+<body>
+
+    <h1>Secure Banking Demo</h1>
+
+    <label>Username</label>
+    <input type="text" placeholder="Enter username">
+
+    <br><br>
+
+    <label>Password</label>
+    <input type="password" placeholder="Enter password">
+
+    <br><br>
+
+    <button id="loginBtn">Login</button>
+
+    <button id="transferBtn">Transfer Money</button>
+
+    <p id="message"></p>
+
+</body>
+</html>

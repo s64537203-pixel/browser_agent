@@ -1,0 +1,19 @@
+{
+  "name": "browser-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && copy public\\manifest.json manifest.json",
+    "start:ai": "\"C:\\Users\\DELL\\OneDrive\\Desktop\\Browser_agent\\.venv\\Scripts\\python.exe\" ai/server.py",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/chrome": "^0.2.9",
+    "typescript": "^7.0.2"
+  }
+}
